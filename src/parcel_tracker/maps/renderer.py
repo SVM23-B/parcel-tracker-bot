@@ -90,7 +90,7 @@ def _densify(
 class MapRenderer:
     """Builds a small PNG map centred on a coordinate with a mode icon."""
 
-    def __init__(
+    def __init__(  # noqa: PLR0913 — all keyword-only render knobs with defaults
         self,
         *,
         user_agent: str,

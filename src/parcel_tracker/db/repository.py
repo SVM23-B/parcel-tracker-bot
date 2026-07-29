@@ -284,7 +284,9 @@ class ParcelRepository:
         placeholders = ",".join("?" for _ in event_ids)
         async with get_connection(self._db_path) as conn:
             await conn.execute(
-                f"UPDATE tracking_history SET notified = 1 WHERE id IN ({placeholders})",  # noqa: S608
+                # placeholders is only "?,?,..." built from len(event_ids); the ids
+                # themselves are bound as parameters, never interpolated.
+                f"UPDATE tracking_history SET notified = 1 WHERE id IN ({placeholders})",  # noqa: S608  # nosec B608
                 event_ids,
             )
             await conn.commit()
